@@ -100,9 +100,9 @@ provider.setOnShareTargetSelectedListener(new OnShareTargetSelectedListener()
 });
 ```
 
-#### Step 5 : Retrieve the app choosed by the user
+#### Step 5 : Retrieve the app choosen by the user
 
-Into the `onShareTargetSelected` method, you are now able to retrieve the package name of the app choosed by the user to share the content :
+Into the `onShareTargetSelected` method, you are now able to retrieve the package name of the app choosen by the user to share the content :
 
 ```java
 final String app = intent.getComponent().getPackageName();
