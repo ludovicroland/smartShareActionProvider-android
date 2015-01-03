@@ -22,8 +22,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.ActionProvider;
-import android.support.v7.internal.widget.TintManager;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -87,7 +85,7 @@ public class SmartShareActionProvider
   /**
    * Listener for the event of selecting a share target.
    */
-  public interface OnShareTargetSelectedListener
+  public static interface OnShareTargetSelectedListener
   {
 
     /**
@@ -110,6 +108,12 @@ public class SmartShareActionProvider
      * @return The return result is ignored. Always return false for consistency.
      */
     public boolean onShareTargetSelected(SmartShareActionProvider source, Intent intent);
+
+  }
+
+  public static enum ShareIcon
+  {
+    White, Black;
   }
 
   /**
@@ -137,6 +141,10 @@ public class SmartShareActionProvider
    */
   private final Context mContext;
 
+  private final int mDrawableResId;
+
+  private final Drawable mDrawable;
+
   /**
    * The name of the file with share history data.
    */
@@ -150,11 +158,28 @@ public class SmartShareActionProvider
    * Creates a new instance.
    *
    * @param context Context for accessing resources.
+   * @param icon    ShareIcon for stylizing the icon.
    */
-  public SmartShareActionProvider(Context context)
+  public SmartShareActionProvider(Context context, ShareIcon icon)
   {
     super(context);
     mContext = context;
+    mDrawable = null;
+    mDrawableResId = icon == ShareIcon.White ? R.drawable.ic_action_share : R.drawable.ic_action_share_black;
+  }
+
+  /**
+   * Creates a new instance.
+   *
+   * @param context  Context for accessing resources.
+   * @param drawable drawable for stylizing the icon.
+   */
+  public SmartShareActionProvider(Context context, Drawable drawable)
+  {
+    super(context);
+    mContext = context;
+    mDrawable = drawable;
+    mDrawableResId = -1;
   }
 
   /**
@@ -186,9 +211,10 @@ public class SmartShareActionProvider
     activityChooserView.setActivityChooserModel(dataModel);
 
     // Lookup and set the expand action icon.
-    TypedValue outTypedValue = new TypedValue();
-    mContext.getTheme().resolveAttribute(R.attr.actionModeShareDrawable, outTypedValue, true);
-    Drawable drawable = TintManager.getDrawable(mContext, outTypedValue.resourceId);
+    // TypedValue outTypedValue = new TypedValue();
+    //mContext.getTheme().resolveAttribute(R.attr.actionModeShareDrawable, outTypedValue, true);
+    //Drawable drawable = TintManager.getDrawable(mContext, outTypedValue.resourceId);
+    final Drawable drawable = mDrawable == null ? mContext.getResources().getDrawable(mDrawableResId) : mDrawable;
     activityChooserView.setExpandActivityOverflowButtonDrawable(drawable);
     activityChooserView.setProvider(this);
 
