@@ -88,7 +88,7 @@ import org.xmlpull.v1.XmlSerializer;
  *
  * @hide
  */
-public class SmartActivityChooserModel
+class SmartActivityChooserModel
     extends DataSetObservable
 {
 

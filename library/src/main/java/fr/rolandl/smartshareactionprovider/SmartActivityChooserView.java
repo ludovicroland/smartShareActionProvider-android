@@ -64,7 +64,7 @@ import android.widget.TextView;
  *
  * @hide
  */
-public class SmartActivityChooserView
+class SmartActivityChooserView
     extends ViewGroup
     implements SmartActivityChooserModel.ActivityChooserModelClient
 {
